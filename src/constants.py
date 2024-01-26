@@ -1,0 +1,6 @@
+SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 1280
+
+ASSETS_CHARACTERS = "assets/images/peep/"
+
+WHITE = (255, 255, 255)

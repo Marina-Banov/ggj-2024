@@ -1,2 +1,5 @@
 from .background import Background
-__all__ = ["Background"]
+from .player import Player
+from . import constants
+
+__all__ = ["Background", "Player", "constants"]

@@ -8,18 +8,21 @@ from src import *
 class GGJ_2024:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((720, 480))
+        self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
         self.fps = 60
 
         self.bg = Background()
+        self.player = Player()
 
     def update(self):
         self.bg.update()
+        self.player.update(3, 0)
 
     def draw(self):
         self.bg.draw(self.screen)
+        self.player.draw(self.screen)
         pygame.display.flip()
         self.clock.tick(self.fps)
 
