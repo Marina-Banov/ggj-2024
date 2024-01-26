@@ -17,7 +17,7 @@ pip install pygame
 **Run the project:**
 
 ```
-python main_desktop.py
+python main.py
 ```
 
 ## Deploy
