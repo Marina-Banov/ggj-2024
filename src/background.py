@@ -15,11 +15,14 @@ class Background:
         self.scroll = 0
 
     def update(self):
-        self.scroll += 2
+        if self.scroll < self.width * 4:
+            self.scroll += 2
 
     def draw(self, screen):
         for n in range(5):
+            speed = 1
             for i, image in enumerate(self.bg_images):
                 if i == 4:
                     continue
-                screen.blit(image, (n * self.width - self.scroll, 0))
+                screen.blit(image, (n * self.width - self.scroll * speed, 0))
+                speed += 0.2
