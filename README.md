@@ -11,11 +11,21 @@
 **Install the required packages:**
 
 ```
-pip install pygame
+pip install pygame pygbag
 ```
 
 **Run the project:**
 
 ```
-python main.py
+python main_desktop.py
 ```
+
+## Deploy
+
+To play the game in a modern browser, compile to WASM:
+
+```
+pygbag .
+```
+
+Visit `localhost:8000`.

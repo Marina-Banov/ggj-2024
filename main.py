@@ -1,29 +1,28 @@
-import sys
+import asyncio
 
 import pygame
 
-import src
-# from src import *
+from main_desktop import GGJ_2024_Desktop
 
 
-pygame.init()
+class GGJ_2024(GGJ_2024_Desktop):
+    def init(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((600, 800))
+
+    async def game_loop(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    return
+            self.update()
+            self.draw()
+            await asyncio.sleep(0)
 
 
-def main():
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                running = False
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
-                pygame.display.toggle_fullscreen()
-        screen.fill((40, 41, 35))
-        pygame.display.flip()
+async def main():
+    ggj_2024 = GGJ_2024()
+    await ggj_2024.game_loop()
 
 
-if __name__ == "__main__":
-    main()
-    pygame.quit()
-    sys.exit()
+asyncio.run(main())
