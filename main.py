@@ -2,8 +2,7 @@ import asyncio
 
 import pygame
 
-# import src
-# from src import *
+from src import *
 
 
 class GGJ_2024:
@@ -14,13 +13,13 @@ class GGJ_2024:
         self.clock = pygame.time.Clock()
         self.fps = 60
 
-        self.blue = 35
+        self.bg = Background()
 
     def update(self):
-        self.blue = (self.blue + 1) % 255
+        self.bg.update()
 
     def draw(self):
-        self.screen.fill((40, 41, self.blue))
+        self.bg.draw(self.screen)
         pygame.display.flip()
         self.clock.tick(self.fps)
 
