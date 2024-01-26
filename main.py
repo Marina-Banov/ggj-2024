@@ -3,24 +3,24 @@ import asyncio
 import pygame
 
 # import src
-# from src import *
-
+from src import *
 
 class GGJ_2024:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((720, 480))
+        self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
         self.fps = 60
 
-        self.blue = 35
+        self.player = Player()
 
     def update(self):
-        self.blue = (self.blue + 1) % 255
+        self.player.update(3,0)
 
     def draw(self):
-        self.screen.fill((40, 41, self.blue))
+        self.screen.fill((40, 41, 35))
+        self.player.draw(self.screen)
         pygame.display.flip()
         self.clock.tick(self.fps)
 

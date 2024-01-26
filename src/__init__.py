@@ -1,5 +1,7 @@
-from . import game
-from . import player
+#from . import game
+#from . import player
 
-# from .game import GameState
-# __all__ = ["GameState"]
+from .player import Player
+from . import constants
+
+__all__ = ["Player", "constants"]
