@@ -2,8 +2,8 @@ import asyncio
 
 import pygame
 
-# import src
 from src import *
+
 
 class GGJ_2024:
     def __init__(self):
@@ -16,7 +16,7 @@ class GGJ_2024:
         self.player = Player()
 
     def update(self):
-        self.player.update(3,0)
+        self.player.update(3, 0)
 
     def draw(self):
         self.screen.fill((40, 41, 35))
