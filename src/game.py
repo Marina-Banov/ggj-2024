@@ -15,7 +15,9 @@ class Game:
         self.bg = Background()
         self.player = Player()
         self.enemy = Enemy()
+        Platform.preload()
         self.platforms = pygame.sprite.Group()
+        Projectile.preload()
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False

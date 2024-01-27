@@ -3,17 +3,19 @@ import math
 from .constants import *
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, x, y, angle):
-        super().__init__()
+    images = []
 
-        self.images = []  # List to store animation frames
+    def preload():
         # Add your animation frames to the list (assuming you have fireball_1.png, fireball_2.png, etc.)
         for i in range(6):
             image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}projectile/{i+1}.png").convert_alpha()
-            self.images.append(pygame.transform.scale(image, (180, 180)))  # Adjust the size as needed
+            Projectile.images.append(pygame.transform.scale(image, (180, 180)))
 
+    def __init__(self, x, y, angle):
+        super().__init__()
+        
         self.index = 0  # Current frame index
-        self.image = self.images[self.index]
+        self.image = Projectile.images[self.index]
 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -28,11 +30,11 @@ class Projectile(pygame.sprite.Sprite):
         now = pygame.time.get_ticks()
         if now - self.last_update > FPS:
             self.last_update = now
-            self.index = (self.index + 1) % len(self.images)
-            self.image = self.images[self.index]
+            self.index = (self.index + 1) % len(Projectile.images)
+            self.image = Projectile.images[self.index]
 
         # Rotate the projectile image based on its angle
-        self.image = pygame.transform.rotate(self.images[self.index], math.degrees(self.angle))
+        self.image = pygame.transform.rotate(Projectile.images[self.index], math.degrees(self.angle))
         self.rect = self.image.get_rect(center=self.rect.center)
 
         # Move the projectile based on its angle and speed

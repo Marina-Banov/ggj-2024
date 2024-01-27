@@ -1,4 +1,4 @@
-import asyncio
+import sys
 
 import pygame
 
@@ -13,7 +13,7 @@ class GGJ_2024:
         self.clock = pygame.time.Clock()
         self.game = Game()
 
-    async def game_loop(self):
+    def game_loop(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -27,13 +27,14 @@ class GGJ_2024:
             self.game.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(constants.FPS)
-            await asyncio.sleep(0)
  
 
-async def main():
+def main():
     ggj_2024 = GGJ_2024()
-    await ggj_2024.game_loop()
+    ggj_2024.game_loop()
+    pygame.quit()
+    sys.exit()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

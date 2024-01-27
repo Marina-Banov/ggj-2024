@@ -4,7 +4,10 @@ from .constants import *
 
 
 class Platform(pygame.sprite.Sprite):
-    platform_image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}platform.png")
+    platform_image = None
+
+    def preload():
+        Platform.platform_image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}platform.png")
 
     def __init__(self, x, y, width, height=30):
         super().__init__()
