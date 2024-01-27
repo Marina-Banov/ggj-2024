@@ -11,14 +11,17 @@ class Game:
     def __init__(self):
         self.bg = Background()
         self.player = Player()
-        self.ground = Platform(0, GROUND, SCREEN_WIDTH)
         self.platforms = pygame.sprite.Group()
-        platform_image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}platform.png")
-        for p in range(10):
-            p_w = random.randint(80, 140)
-            p_x = random.randint(0, SCREEN_WIDTH - p_w)
-            p_y = p * random.randint(80, 120)
-            platform = Platform(p_x, p_y, p_w, image=platform_image)
+
+    def generate_platforms(self):
+        while len(self.platforms) < 10:
+            p_w = random.randint(100, 180)
+            if len(self.platforms) > 0:
+                p_x = self.platforms.sprites()[-1].rect.x + random.randint(150, 250)
+            else:
+                p_x = random.randint(SCREEN_WIDTH, 1.5 * SCREEN_WIDTH - p_w)
+            p_y = random.randint(self.player.height, GROUND - 50)
+            platform = Platform(p_x, p_y, p_w)
             self.platforms.add(platform)
 
     def process_player_input(self, key):
@@ -27,9 +30,11 @@ class Game:
 
     def update(self):
         self.bg.update()
+        self.generate_platforms()
+        self.platforms.update()
         self.player.update(self.platforms)
 
     def draw(self, screen):
         self.bg.draw(screen)
-        self.player.draw(screen)
         self.platforms.draw(screen)
+        self.player.draw(screen)
