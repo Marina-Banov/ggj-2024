@@ -36,7 +36,7 @@ class GGJ_2024:
             self.update()
             self.draw()
             await asyncio.sleep(0)
-
+ 
 
 async def main():
     ggj_2024 = GGJ_2024()
