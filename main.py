@@ -11,7 +11,6 @@ class GGJ_2024:
         self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
-        self.fps = 60
         self.game = Game()
 
     async def game_loop(self):
@@ -27,7 +26,7 @@ class GGJ_2024:
             self.game.update()
             self.game.draw(self.screen)
             pygame.display.flip()
-            self.clock.tick(self.fps)
+            self.clock.tick(constants.FPS)
             await asyncio.sleep(0)
  
 
