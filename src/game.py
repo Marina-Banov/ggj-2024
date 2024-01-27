@@ -17,21 +17,32 @@ class Game:
         self.enemy = Enemy()
         Platform.preload()
         self.platforms = pygame.sprite.Group()
+        self.walls = pygame.sprite.Group()
         Projectile.preload()
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
 
     def generate_platforms(self):
-        while len(self.platforms) < 10:
-            p_w = random.randint(100, 180)
+        while len(self.platforms) < 8:
+            p_w = random.randint(80, 200)
             if len(self.platforms) > 0:
                 p_x = self.platforms.sprites()[-1].rect.x + random.randint(150, 250)
             else:
                 p_x = random.randint(SCREEN_WIDTH, 1.5 * SCREEN_WIDTH - p_w)
-            p_y = random.randint(self.player.height, GROUND - 50)
-            platform = Platform(p_x, p_y, p_w)
+            p_y = random.randint(150, GROUND - 180)
+            platform = Platform(p_x, p_y, p_w, Platform.PLATFORM)
             self.platforms.add(platform)
+
+    def generate_walls(self):
+        while len(self.walls) < 2:
+            p_h = random.randint(120, 250)
+            if len(self.walls) > 0:
+                p_x = self.walls.sprites()[-1].rect.x + random.randint(800, 1200)
+            else:
+                p_x = random.randint(SCREEN_WIDTH, 1.5 * SCREEN_WIDTH - p_h)
+            wall = Platform(p_x, GROUND - p_h, p_h, Platform.WALL)
+            self.walls.add(wall)
 
     def generate_projectiles(self):
         if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 2 == 0 and not self.is_shooting:
@@ -47,19 +58,24 @@ class Game:
             self.player.jump()
 
     def update(self):
+        if self.player.is_dead:
+            return
         self.bg.update()
         self.generate_platforms()
         self.platforms.update()
-        self.player.update(self.platforms)
+        self.generate_walls()
+        self.walls.update()
+        self.player.update(self.platforms, self.walls)
         self.enemy.update(self.player)
         self.generate_projectiles()
         self.projectiles.update()
 
     def draw(self, screen):
         self.bg.draw(screen)
+        self.platforms.draw(screen)
+        self.walls.draw(screen)
         self.player.draw(screen)
         self.enemy.draw(screen)
-        self.platforms.draw(screen)
         self.projectiles.draw(screen)
 
     # return the time passed from the start of the game (in seconds)

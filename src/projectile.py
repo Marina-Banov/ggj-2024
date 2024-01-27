@@ -2,9 +2,11 @@ import pygame
 import math
 from .constants import *
 
+
 class Projectile(pygame.sprite.Sprite):
     images = []
 
+    @staticmethod
     def preload():
         # Add your animation frames to the list (assuming you have fireball_1.png, fireball_2.png, etc.)
         for i in range(6):

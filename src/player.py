@@ -5,8 +5,7 @@ from .constants import *
 
 
 class Player:
-    def __init__(self) -> None:
-
+    def __init__(self):
         self.height = 130
         self.width = 60
 
@@ -26,28 +25,29 @@ class Player:
         self.wobble_phase = 0
         self.wobble_offset = 0
 
-        self.jumping = False
-        self.standing = True
+        self.is_jumping = False
+        self.is_standing = True
+        self.is_dead = False
 
     def jump(self):
-        self.jumping = True
+        self.is_jumping = True
 
-    def update(self, platforms):
+    def update(self, platforms, walls):
         dy = 0
-        if not self.standing:
+        if not self.is_standing:
             self.vel_y += GRAVITY
         dy += self.vel_y
 
-        if self.jumping:
+        if self.is_jumping:
             self.vel_y = -20
-            self.jumping = False
+            self.is_jumping = False
 
         # check collision with ground
         if self.rect.bottom + dy > GROUND:
             dy = 0
-            self.standing = True
+            self.is_standing = True
         else:
-            self.standing = False
+            self.is_standing = False
 
         # Check the list of colliding platforms
         for p in platforms:
@@ -56,7 +56,12 @@ class Player:
                     if self.vel_y:
                         self.rect.bottom = p.rect.top
                         dy = 0
-                        self.standing = True
+                        self.is_standing = True
+
+        # Check the list of colliding platforms
+        for w in walls:
+            if w.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                self.is_dead = True
 
         self.rect.y += dy
 

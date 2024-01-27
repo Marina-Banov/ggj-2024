@@ -5,7 +5,7 @@ from .constants import *
 
 
 class Enemy:
-    def __init__(self) -> None:
+    def __init__(self):
 
         self.height = 130
         self.width = 70
@@ -25,12 +25,6 @@ class Enemy:
         self.wobble_frequency = 8
         self.wobble_phase = 1
         self.wobble_offset = 1
-
-        # self.jumping = False
-        # self.standing = True
-
-    # def jump(self):
-    #     self.jumping = True
 
     def update(self, player):
         vel_y = (player.rect.y - self.rect.y) / 30
