@@ -12,19 +12,7 @@ class GGJ_2024:
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
         self.fps = 60
-
-        self.bg = Background()
-        self.player = Player()
-
-    def update(self):
-        self.bg.update()
-        self.player.update(2)
-
-    def draw(self):
-        self.bg.draw(self.screen)
-        self.player.draw(self.screen)
-        pygame.display.flip()
-        self.clock.tick(self.fps)
+        self.game = Game()
 
     async def game_loop(self):
         while True:
@@ -33,8 +21,13 @@ class GGJ_2024:
                     return
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
-            self.update()
-            self.draw()
+                else:
+                    key = pygame.key.get_pressed()
+                    self.game.process_player_input(key)
+            self.game.update()
+            self.game.draw(self.screen)
+            pygame.display.flip()
+            self.clock.tick(self.fps)
             await asyncio.sleep(0)
  
 
