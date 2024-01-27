@@ -7,7 +7,7 @@ class Background:
     def __init__(self):
         self.bg_images = []
         for i in range(6):
-            bg_image = pygame.image.load(f"{ASSETS_BG_FOLDER}/parallax_0/{i+1}.png").convert_alpha()
+            bg_image = pygame.image.load(f"{ASSETS_BG_FOLDER}parallax_1/{i+1}.png").convert_alpha()
             bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
             self.bg_images.append(bg_image)
         self.width = self.bg_images[0].get_width()
