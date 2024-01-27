@@ -10,7 +10,7 @@ class Player:
         self.height = 130
         self.width = 60
 
-        self.x = SCREEN_WIDTH * 0.5
+        self.x = SCREEN_WIDTH * 0.44
         self.y = GROUND - self.height
         
         self.vel_y = 0
