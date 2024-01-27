@@ -1,3 +1,4 @@
+import math
 import pygame
 
 from .constants import *
@@ -14,13 +15,21 @@ class Player:
         self.image = pygame.image.load(f"{ASSETS_CHARACTERS}mark.png")
         self.image = pygame.transform.scale(self.image, (130, 130))
 
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.rect = pygame.Rect(0, 0, self.width - 5, self.height - 5)
         self.rect.center = (self.x, self.y)
 
-    def update(self, x, y):
-        self.x += (x * 0.1)
-        self.rect.center = (self.x, self.y)
+        self.wobble_amplitude = 12
+        self.wobble_frequency = 2
+        self.wobble_phase = 0
+        self.wobble_offset = 0
+
+    def update(self, dy):
+        if self.rect.y > 0:
+            self.y -= dy
+            self.rect.centery = self.y
+        self.wobble_offset = self.wobble_amplitude * abs(math.sin(self.wobble_phase))
+        self.wobble_phase += 0.1 * self.wobble_frequency
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x - 32, self.rect.y))
-        # pygame.draw.rect(screen, constants.WHITE, self.rect, 2)
+        screen.blit(self.image, (self.rect.x - 32, self.rect.y - self.wobble_offset))
+        # pygame.draw.rect(screen, WHITE, self.rect, 2)

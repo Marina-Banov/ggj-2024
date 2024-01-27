@@ -18,7 +18,7 @@ class GGJ_2024:
 
     def update(self):
         self.bg.update()
-        self.player.update(3, 0)
+        self.player.update(2)
 
     def draw(self):
         self.bg.draw(self.screen)
