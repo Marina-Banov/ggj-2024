@@ -11,7 +11,7 @@ class Game:
     def __init__(self):
         self.bg = Background()
         self.player = Player()
-        self.ground = Platform(0, SCREEN_HEIGHT - 20, SCREEN_WIDTH)
+        self.ground = Platform(0, GROUND, SCREEN_WIDTH)
         self.platforms = pygame.sprite.Group()
         platform_image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}platform.png")
         for p in range(10):

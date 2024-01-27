@@ -6,12 +6,13 @@ from .constants import *
 
 class Player:
     def __init__(self) -> None:
-        self.x = SCREEN_HEIGHT * 0.7
-        self.y = SCREEN_WIDTH * 0.5
 
         self.height = 130
         self.width = 60
 
+        self.x = SCREEN_WIDTH * 0.5
+        self.y = GROUND - self.height
+        
         self.vel_y = 0
 
         self.image = pygame.image.load(f"{ASSETS_CHARACTERS}mark.png")
@@ -42,7 +43,7 @@ class Player:
             self.jumping = False
 
         # check collision with ground
-        if self.rect.bottom + dy > SCREEN_HEIGHT:
+        if self.rect.bottom + dy > GROUND:
             dy = 0
             self.standing = True
         else:
