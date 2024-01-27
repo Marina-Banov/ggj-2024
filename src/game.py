@@ -15,18 +15,21 @@ class Game:
         self.bg = Background()
         self.player = Player()
         self.enemy = Enemy()
-        self.ground = Platform(0, GROUND, SCREEN_WIDTH)
         self.platforms = pygame.sprite.Group()
-        platform_image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}platform.png")
-        for p in range(10):
-            p_w = random.randint(80, 140)
-            p_x = random.randint(0, SCREEN_WIDTH - p_w)
-            p_y = p * random.randint(80, 120)
-            platform = Platform(p_x, p_y, p_w, image=platform_image)
-            self.platforms.add(platform)
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
+
+    def generate_platforms(self):
+        while len(self.platforms) < 10:
+            p_w = random.randint(100, 180)
+            if len(self.platforms) > 0:
+                p_x = self.platforms.sprites()[-1].rect.x + random.randint(150, 250)
+            else:
+                p_x = random.randint(SCREEN_WIDTH, 1.5 * SCREEN_WIDTH - p_w)
+            p_y = random.randint(self.player.height, GROUND - 50)
+            platform = Platform(p_x, p_y, p_w)
+            self.platforms.add(platform)
 
     def generate_projectiles(self):
         if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 2 == 0 and not self.is_shooting:
@@ -43,6 +46,8 @@ class Game:
 
     def update(self):
         self.bg.update()
+        self.generate_platforms()
+        self.platforms.update()
         self.player.update(self.platforms)
         self.enemy.update(self.player)
         self.generate_projectiles()

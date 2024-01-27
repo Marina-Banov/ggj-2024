@@ -14,10 +14,10 @@ class Background:
         self.scroll = 0
         self.n_layers = [0, 0, 0, 0, 0, 0]
         self.pos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self.speeds = [1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
+        self.speeds = [0.4, 0.6, 0.8, 1.0, 1.2, 1.6]
 
     def update(self):
-        self.scroll += 3
+        self.scroll += SCROLL_INCREMENT
         for i, image in enumerate(self.bg_images):
             pos = self.n_layers[i] * self.width - self.scroll * self.speeds[i]
             if -SCREEN_WIDTH < pos < SCREEN_WIDTH:
