@@ -17,6 +17,7 @@ class Game:
     sound_warning = pygame.mixer.Sound(f"{ASSETS_SOUNDS}gasp.mp3")
     sound_shoot = pygame.mixer.Sound(f"{ASSETS_SOUNDS}scream.mp3")
     sound_death = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
+    bg_music_game = pygame.mixer.Sound(f"{ASSETS_SOUNDS}combat_music.wav")
 
     def __init__(self, clock):
         Platform.preload()
@@ -33,6 +34,8 @@ class Game:
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
         self.warned = False
+
+        Game.bg_music_game.play()
 
     def generate_platforms(self):
         while len(self.platforms) < 8:

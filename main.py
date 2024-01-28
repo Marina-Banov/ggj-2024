@@ -11,7 +11,6 @@ class GGJ_2024:
         self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
-        self.game = Game(self.clock)
         pygame.mixer.init()
         self.current_scene = Intro()
 

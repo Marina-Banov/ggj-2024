@@ -86,4 +86,4 @@ class Player:
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x - 5, self.rect.y - self.wobble_offset))
-        pygame.draw.rect(screen, WHITE, self.rect, 2)
+        # pygame.draw.rect(screen, WHITE, self.rect, 2)
