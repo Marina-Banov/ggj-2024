@@ -12,7 +12,7 @@ class Intro:
 
     def __init__(self):
         self.scene = 0
-        self.is_finished = False
+        self.is_finished = True
         self.space_clicked = 0
 
         self.laboratory_image = pygame.image.load(f"{ASSETS_BG_FOLDER}laboratory.png").convert_alpha()
