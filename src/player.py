@@ -8,12 +8,12 @@ class Player:
 
     sound_deathh = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
 
-    def __init__(self):
-        self.height = 150
-        self.width = 110
+    def __init__(self, x, y, width, height):
+        self.height = height
+        self.width = width
 
-        self.x = SCREEN_WIDTH * 0.44
-        self.y = GROUND - self.height
+        self.x = x
+        self.y = y
         
         self.vel_y = 0
 
@@ -75,6 +75,9 @@ class Player:
 
         self.rect.y += dy
 
+        self.wobble()
+
+    def wobble(self):
         self.wobble_offset = self.wobble_amplitude * abs(math.sin(self.wobble_phase))
         self.wobble_phase += 0.1 * self.wobble_frequency
 

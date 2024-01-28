@@ -25,7 +25,7 @@ class Game:
 
         self.clock = clock
         self.bg = Background()
-        self.player = Player()
+        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
         self.enemy = Enemy()
         self.platforms = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
