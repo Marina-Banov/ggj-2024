@@ -12,13 +12,15 @@ from .constants import *
 
 class Game:
     def __init__(self):
+        Platform.preload()
+        Projectile.preload()
+        Enemy.preload()
+        
         self.bg = Background()
         self.player = Player()
         self.enemy = Enemy()
-        Platform.preload()
         self.platforms = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
-        Projectile.preload()
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
@@ -48,7 +50,7 @@ class Game:
         if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 2 == 0 and not self.is_shooting:
             self.is_shooting = True
             angle = math.atan2(self.player.rect.y - self.enemy.rect.y, self.player.rect.x - self.enemy.rect.x)
-            new_projectile = Projectile(self.enemy.rect.x, self.enemy.rect.y, math.degrees(angle))
+            new_projectile = Projectile(self.enemy.rect.x + self.enemy.width, self.enemy.rect.y + 80, math.degrees(angle))
             self.projectiles.add(new_projectile)
         if len(self.projectiles) == 0:
             self.is_shooting = False
@@ -65,7 +67,7 @@ class Game:
         self.platforms.update()
         self.generate_walls()
         self.walls.update()
-        self.player.update(self.platforms, self.walls)
+        self.player.update(self.platforms, self.walls, self.projectiles)
         self.enemy.update(self.player)
         self.generate_projectiles()
         self.projectiles.update()
@@ -76,7 +78,8 @@ class Game:
         self.walls.draw(screen)
         self.player.draw(screen)
         self.enemy.draw(screen)
-        self.projectiles.draw(screen)
+        for p in self.projectiles.sprites():
+            p.draw(screen)
 
     # return the time passed from the start of the game (in seconds)
     def get_elapsed_time(self):
