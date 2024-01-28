@@ -7,7 +7,8 @@ class Player:
     pygame.mixer.init()
 
     sound_deathh = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
-
+    sound_jump = pygame.mixer.Sound(f"{ASSETS_SOUNDS}jump.mp3")
+    
     def __init__(self, x, y, width, height):
         self.height = height
         self.width = width
@@ -33,6 +34,8 @@ class Player:
         self.is_dead = False
 
     def jump(self):
+        if self.is_standing:
+            Player.sound_jump.play()
         self.is_jumping = True
 
     def update(self, platforms, walls, projectiles):
@@ -83,4 +86,4 @@ class Player:
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x - 5, self.rect.y - self.wobble_offset))
-        # pygame.draw.rect(screen, WHITE, self.rect, 2)
+        pygame.draw.rect(screen, WHITE, self.rect, 2)
