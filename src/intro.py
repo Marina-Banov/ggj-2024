@@ -33,7 +33,8 @@ class Intro:
             "Wait... Something's not right...",
             "My machine is falling apart!",
             "Oh no, Einstein, I'm so sorry!",
-            "It seems like we are going to the dinosaur age!",
+            "It seems like we are going to",
+            "the dinosaur age!",
             "Please, Einstein, don't be mad!",
         ]
         self.labels = [
@@ -42,8 +43,8 @@ class Intro:
             [self.font.render(line, True, BLACK) for line in self.text[4:7]],
             [self.font.render(line, True, BLACK) for line in self.text[7:9]],
             [self.font.render(self.text[9], True, BLACK)],
-            [self.font.render(self.text[10], True, BLACK)],
-            [self.font.render(self.text[11], True, BLACK)],
+            [self.font.render(line, True, BLACK) for line in self.text[10:12]],
+            [self.font.render(self.text[12], True, BLACK)],
         ]
         self.monologue_step = 0
         self.bubble = None
@@ -60,9 +61,10 @@ class Intro:
     def process_player_input(self, key):
         if key[pygame.K_SPACE]:
             if self.space_clicked == 0:
-                self.scene += 1
                 self.monologue_step += 1
                 self.update_bubble()
+                if self.monologue_step in [1, 7]:
+                    self.scene += 1
                 self.space_clicked = self.counter
             self.is_finished = (self.scene == Intro.END)
 
@@ -75,10 +77,12 @@ class Intro:
             del self.color_burst[0]
 
     def update_bubble(self):
+        if self.monologue_step >= len(self.labels):
+            return
         w = max([line.get_width() for line in self.labels[self.monologue_step]]) + 40
         h = len(self.labels[self.monologue_step]) * 32 + 15 * (len(self.labels[self.monologue_step])-1) + 40
-        x = SCREEN_WIDTH // 2 - 100 - w // 2
-        y = SCREEN_HEIGHT // 2 - 150 - h // 2
+        x = SCREEN_WIDTH // 2 - 85 - w // 2
+        y = SCREEN_HEIGHT // 2 - 165
         self.bubble = pygame.Rect(x, y, w, h)
 
     def update(self):
@@ -86,7 +90,7 @@ class Intro:
         if now - self.last_update > FPS:
             self.last_update = now
             self.counter += 1
-        if (self.counter - self.space_clicked) == 30:
+        if (self.counter - self.space_clicked) == 15:
             self.space_clicked = 0
         if self.scene == Intro.LABORATORY:
             self.player.wobble()
@@ -109,12 +113,14 @@ class Intro:
         )
 
     def draw_monologue(self, screen):
+        if self.monologue_step >= len(self.labels):
+            return
         pygame.draw.rect(screen, WHITE, self.bubble, border_radius=30)
         for line, label in enumerate(self.labels[self.monologue_step]):
             screen.blit(
                 label,
                 (
-                    SCREEN_WIDTH // 2 - 100 - label.get_width() // 2,
+                    SCREEN_WIDTH // 2 - 85 - label.get_width() // 2,
                     SCREEN_HEIGHT // 2 - 150 + line * 32 + 15 * line
                 )
             )
