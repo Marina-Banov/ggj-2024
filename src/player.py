@@ -32,7 +32,7 @@ class Player:
     def jump(self):
         self.is_jumping = True
 
-    def update(self, platforms, walls):
+    def update(self, platforms, walls, projectiles):
         dy = 0
         if not self.is_standing:
             self.vel_y += GRAVITY
@@ -61,6 +61,11 @@ class Player:
         # Check the list of colliding platforms
         for w in walls:
             if w.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                self.is_dead = True
+        
+        # Check the list of colliding projectiles
+        for projectile in projectiles:
+            if projectile.rect.colliderect(self.rect.x, self.rect.y, self.width, self.height):
                 self.is_dead = True
 
         self.rect.y += dy
