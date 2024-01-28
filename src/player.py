@@ -6,18 +6,18 @@ from .constants import *
 
 class Player:
     def __init__(self):
-        self.height = 130
-        self.width = 60
+        self.height = 150
+        self.width = 110
 
         self.x = SCREEN_WIDTH * 0.44
         self.y = GROUND - self.height
         
         self.vel_y = 0
 
-        self.image = pygame.image.load(f"{ASSETS_CHARACTERS}mark.png")
-        self.image = pygame.transform.scale(self.image, (130, 130))
+        self.image = pygame.image.load(f"{ASSETS_CHARACTERS}serena.png")
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-        self.rect = pygame.Rect(0, 0, self.width - 5, self.height - 5)
+        self.rect = pygame.Rect(5, 5, self.width - 10, self.height - 10)
         self.rect.center = (self.x, self.y)
 
         self.wobble_amplitude = 12
@@ -74,5 +74,5 @@ class Player:
         self.wobble_phase += 0.1 * self.wobble_frequency
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x - 32, self.rect.y - self.wobble_offset))
+        screen.blit(self.image, (self.rect.x - 5, self.rect.y - self.wobble_offset))
         # pygame.draw.rect(screen, WHITE, self.rect, 2)
