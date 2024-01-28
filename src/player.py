@@ -3,8 +3,12 @@ import pygame
 
 from .constants import *
 
-
 class Player:
+    pygame.mixer.init()
+
+    sound_deathh = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
+    sound_jump = pygame.mixer.Sound(f"{ASSETS_SOUNDS}jump.mp3")
+    
     def __init__(self, x, y, width, height):
         self.height = height
         self.width = width
@@ -30,9 +34,11 @@ class Player:
         self.is_dead = False
 
     def jump(self):
+        if self.is_standing:
+            Player.sound_jump.play()
         self.is_jumping = True
 
-    def update(self, platforms, walls):
+    def update(self, platforms, walls, projectiles):
         dy = 0
         if not self.is_standing:
             self.vel_y += GRAVITY
@@ -61,6 +67,13 @@ class Player:
         # Check the list of colliding platforms
         for w in walls:
             if w.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                Player.sound_deathh.play()
+                self.is_dead = True
+        
+        # Check the list of colliding projectiles
+        for projectile in projectiles:
+            if projectile.rect.colliderect(self.rect.x, self.rect.y, self.width, self.height):
+                Player.sound_deathh.play()
                 self.is_dead = True
 
         self.rect.y += dy

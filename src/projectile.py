@@ -5,22 +5,24 @@ from .constants import *
 
 class Projectile(pygame.sprite.Sprite):
     images = []
+    cloud = []
 
     @staticmethod
     def preload():
         # Add your animation frames to the list (assuming you have fireball_1.png, fireball_2.png, etc.)
         for i in range(6):
             image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}projectile/{i+1}.png").convert_alpha()
-            Projectile.images.append(pygame.transform.scale(image, (180, 180)))
-
+            Projectile.images.append(pygame.transform.scale(image, (160, 80)))
+        
     def __init__(self, x, y, angle):
         super().__init__()
-        
         self.index = 0  # Current frame index
         self.image = Projectile.images[self.index]
-
-        self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
+        
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+        
+        self.rect = pygame.Rect(x - self.height / 2 + 20, y - self.width / 2 + 20, self.width - 40, self.height - 40)#self.image.get_rect()
 
         self.speed = 10  # Adjust the speed of the projectile
         self.angle = math.radians(angle)  # Convert the angle to radians
@@ -34,21 +36,27 @@ class Projectile(pygame.sprite.Sprite):
             self.last_update = now
             self.index = (self.index + 1) % len(Projectile.images)
             self.image = Projectile.images[self.index]
-
-        # Rotate the projectile image based on its angle
-        self.image = pygame.transform.rotate(Projectile.images[self.index], math.degrees(self.angle))
-        self.rect = self.image.get_rect(center=self.rect.center)
+            # Rotate the projectile image based on its angle
+            self.image = pygame.transform.rotate(self.image, math.degrees(self.angle))
+            
+            # self.surf = pygame.Surface((self.rect.width, self.rect.height))
+            # self.surf = pygame.transform.rotate(self.surf, math.degrees(self.angle))
+            # self.rect = self.surf.get_rect(center=self.rect.center)
+            
+        #self.rect = self.image.get_rect(center=self.rect.center)
 
         # Move the projectile based on its angle and speed
-        self.rect.x += self.speed * math.cos(self.angle)
-        self.rect.y -= self.speed * math.sin(self.angle)
+        self.rect.centerx += self.speed * math.cos(self.angle)
+        self.rect.centery -= self.speed * math.sin(self.angle)
 
         # If the projectile goes off the screen, remove it
         if self.rect.x < 0 or self.rect.x > SCREEN_WIDTH or self.rect.y < 0 or self.rect.y > SCREEN_HEIGHT:
             self.kill()
 
     def draw(self, screen):
-        screen.blit(self.image, self.rect)
+        screen.blit(self.image, (self.rect.x - 20, self.rect.y - 20))
+        # pygame.draw.rect(screen, WHITE, self.rect, 2)
+
 
 
 # Example of how to use the Projectile class:

@@ -11,12 +11,13 @@ class GGJ_2024:
         self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
         pygame.display.set_caption("GGJ 2024")
         self.clock = pygame.time.Clock()
+        pygame.mixer.init()
         self.current_scene = Intro()
 
     def game_loop(self):
         while True:
             if isinstance(self.current_scene, Intro) and self.current_scene.is_finished:
-                self.current_scene = Game()
+                self.current_scene = Game(self.clock)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     return

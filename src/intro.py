@@ -10,10 +10,15 @@ class Intro:
     COLOR_BURST = 1
     END = 2
 
+
+    pygame.mixer.init()
+    bg_music_intro = pygame.mixer.Sound(f"{ASSETS_SOUNDS}bg_music.mp3")
+    
     def __init__(self):
         self.scene = 0
-        self.is_finished = True
+        self.is_finished = False
         self.space_clicked = 0
+        Intro.bg_music_intro.play()
 
         self.laboratory_image = pygame.image.load(f"{ASSETS_BG_FOLDER}laboratory.png").convert_alpha()
         self.laboratory_image = pygame.transform.scale(self.laboratory_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -67,6 +72,8 @@ class Intro:
                     self.scene += 1
                 self.space_clicked = self.counter
             self.is_finished = (self.scene == Intro.END)
+            if self.is_finished:
+                Intro.bg_music_intro.stop()
 
     def burst(self):
         if self.counter % 10 == 0:
