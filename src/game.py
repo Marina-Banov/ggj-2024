@@ -39,9 +39,11 @@ class Game:
             p_h = random.randint(120, 250)
             if len(self.walls) > 0:
                 p_x = self.walls.sprites()[-1].rect.x + random.randint(800, 1200)
+                m = random.randint(0, len(Platform.wall_messages)-1)
             else:
                 p_x = random.randint(SCREEN_WIDTH, 1.5 * SCREEN_WIDTH - p_h)
-            wall = Platform(p_x, GROUND - p_h, p_h, Platform.WALL)
+                m = 0
+            wall = Platform(p_x, GROUND - p_h, p_h, Platform.WALL, m)
             self.walls.add(wall)
 
     def generate_projectiles(self):
@@ -73,7 +75,8 @@ class Game:
     def draw(self, screen):
         self.bg.draw(screen)
         self.platforms.draw(screen)
-        self.walls.draw(screen)
+        for w in self.walls.sprites():
+            w.draw(screen)
         self.player.draw(screen)
         self.enemy.draw(screen)
         self.projectiles.draw(screen)
