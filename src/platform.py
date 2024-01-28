@@ -15,7 +15,7 @@ class Platform(pygame.sprite.Sprite):
         ["Hit space", "to jump"],
         ["Avoid walls"],
         ["Walls will", "kill you"],
-        ["Einstein WILL", "kill you"]
+        ["Einstein WILL", "kill you"],
     ]
 
     @staticmethod

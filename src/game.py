@@ -22,6 +22,9 @@ class Game:
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
+        font = pygame.font.Font(f"{ASSETS_FONT_FOLDER}FuturaHandwritten.ttf", 32)
+        self.restart_text = font.render("You died. Press space to restart.", True, WHITE)
+        self.restart_bubble = pygame.Rect(SCREEN_WIDTH // 2 - 245, SCREEN_HEIGHT // 2 - 30, 520, 55)
 
     def generate_platforms(self):
         while len(self.platforms) < 8:
@@ -57,7 +60,17 @@ class Game:
 
     def process_player_input(self, key):
         if key[pygame.K_SPACE]:
-            self.player.jump()
+            if self.player.is_dead:
+                self.bg = Background()
+                self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+                self.enemy = Enemy()
+                self.platforms = pygame.sprite.Group()
+                self.walls = pygame.sprite.Group()
+                self.projectiles = pygame.sprite.Group()
+                self.start_time = pygame.time.get_ticks()
+                self.is_shooting = False
+            else:
+                self.player.jump()
 
     def update(self):
         if self.player.is_dead:
@@ -80,6 +93,9 @@ class Game:
         self.player.draw(screen)
         self.enemy.draw(screen)
         self.projectiles.draw(screen)
+        if self.player.is_dead:
+            pygame.draw.rect(screen, BLACK, self.restart_bubble, border_radius=30)
+            screen.blit(self.restart_text, (SCREEN_WIDTH // 2 - 225, SCREEN_HEIGHT // 2 - 25))
 
     # return the time passed from the start of the game (in seconds)
     def get_elapsed_time(self):
