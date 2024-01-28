@@ -38,6 +38,11 @@ class Projectile(pygame.sprite.Sprite):
             self.image = Projectile.images[self.index]
             # Rotate the projectile image based on its angle
             self.image = pygame.transform.rotate(self.image, math.degrees(self.angle))
+            
+            # self.surf = pygame.Surface((self.rect.width, self.rect.height))
+            # self.surf = pygame.transform.rotate(self.surf, math.degrees(self.angle))
+            # self.rect = self.surf.get_rect(center=self.rect.center)
+            
         #self.rect = self.image.get_rect(center=self.rect.center)
 
         # Move the projectile based on its angle and speed

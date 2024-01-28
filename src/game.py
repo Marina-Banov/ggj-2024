@@ -11,11 +11,19 @@ from .constants import *
 
 
 class Game:
-    def __init__(self):
+    # Initialize the mixer module
+    # pygame.mixer.init()
+    # Load a sound effect
+    sound_warning = pygame.mixer.Sound(f"{ASSETS_SOUNDS}gasp.mp3")
+    sound_shoot = pygame.mixer.Sound(f"{ASSETS_SOUNDS}scream.mp3")
+    sound_death = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
+
+    def __init__(self, clock):
         Platform.preload()
         Projectile.preload()
         Enemy.preload()
-        
+
+        self.clock = clock
         self.bg = Background()
         self.player = Player()
         self.enemy = Enemy()
@@ -24,6 +32,7 @@ class Game:
         self.projectiles = pygame.sprite.Group()
         self.start_time = pygame.time.get_ticks()
         self.is_shooting = False
+        self.warned = False
 
     def generate_platforms(self):
         while len(self.platforms) < 8:
@@ -47,11 +56,22 @@ class Game:
             self.walls.add(wall)
 
     def generate_projectiles(self):
-        if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 2 == 0 and not self.is_shooting:
+        
+        if self.get_elapsed_time() > 0 and (self.get_elapsed_time() + 1) % 3 == 0 and not self.is_shooting:
+            if not self.warned:
+                Game.sound_warning.play()
+                self.enemy.warning()
+                self.warned = True
+
+        if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 3 == 0 and not self.is_shooting:
+            self.warned = False
+            Game.sound_shoot.play()
+            self.enemy.shoot()
             self.is_shooting = True
             angle = math.atan2(self.player.rect.y - self.enemy.rect.y, self.player.rect.x - self.enemy.rect.x)
             new_projectile = Projectile(self.enemy.rect.x + self.enemy.width, self.enemy.rect.y + 80, math.degrees(angle))
             self.projectiles.add(new_projectile)
+        
         if len(self.projectiles) == 0:
             self.is_shooting = False
 
