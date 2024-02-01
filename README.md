@@ -19,14 +19,3 @@ pip install pygame
 ```
 python main.py
 ```
-
-## Deploy
-
-To play the game in a modern browser, compile to WASM:
-
-```
-pip install pygbag
-pygbag . --ume_block 0
-```
-
-Visit `localhost:8000`.

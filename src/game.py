@@ -82,7 +82,8 @@ class Game:
         if len(self.projectiles) == 0:
             self.is_shooting = False
 
-    def process_player_input(self, key):
+    def process_player_input(self, _):
+        key = pygame.key.get_pressed()
         if key[pygame.K_SPACE]:
             if self.player.is_dead:
                 self.bg = Background()

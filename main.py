@@ -24,8 +24,7 @@ class GGJ_2024:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
                 else:
-                    key = pygame.key.get_pressed()
-                    self.current_scene.process_player_input(key)
+                    self.current_scene.process_player_input(event)
             self.current_scene.update()
             self.current_scene.draw(self.screen)
             pygame.display.flip()
