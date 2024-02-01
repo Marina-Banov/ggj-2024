@@ -11,7 +11,7 @@ class Intro:
     END = 2
 
     pygame.mixer.init()
-    bg_music_intro = pygame.mixer.Sound(f"{ASSETS_SOUNDS}bg_music.mp3")
+    bg_music_intro = pygame.mixer.Sound(f"{ASSETS_SOUNDS}intro_music.mp3")
 
     def __init__(self):
         self.scene = 0
@@ -21,8 +21,7 @@ class Intro:
 
         self.laboratory_image = pygame.image.load(f"{ASSETS_BG_FOLDER}laboratory.png").convert_alpha()
         self.laboratory_image = pygame.transform.scale(self.laboratory_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        # Image by <a href="https://www.freepik.com/free-vector/flat-laboratory-room-illustration_12983121.htm
-        # ">Freepik</a>
+        #
 
         self.player = Player(250, 470, 220, 300)
 
