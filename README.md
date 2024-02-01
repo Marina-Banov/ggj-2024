@@ -1,6 +1,6 @@
 # RonTontoTon
 
-This game was developed at the [Global Gam Jam 2024](gamejam.org/games/2024/rontontoton-1).
+This game was developed at the [Global Gam Jam 2024](https://gamejam.org/games/2024/rontontoton-1).
 
 Although building a functioning time machine is the biggest achievement of your life, meeting your idols didn't turn out as you might have hoped.
 

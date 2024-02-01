@@ -23,7 +23,7 @@ class Intro:
         self.laboratory_image = pygame.transform.scale(self.laboratory_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         #
 
-        self.player = Player(250, 470, 220, 300)
+        self.player = Player(220, 410, 220, 300)
 
         Bubble.preload()
         self.text = [
