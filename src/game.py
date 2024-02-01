@@ -4,6 +4,7 @@ import math
 
 from .background import Background
 from .enemy import Enemy
+from .intro import Bubble
 from .platform import Platform
 from .player import Player
 from .projectile import Projectile
@@ -16,7 +17,6 @@ class Game:
     # Load a sound effect
     sound_warning = pygame.mixer.Sound(f"{ASSETS_SOUNDS}gasp.mp3")
     sound_shoot = pygame.mixer.Sound(f"{ASSETS_SOUNDS}scream.mp3")
-    sound_death = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
     bg_music_game = pygame.mixer.Sound(f"{ASSETS_SOUNDS}game_music.wav")
 
     def __init__(self, clock):
@@ -25,18 +25,16 @@ class Game:
         Enemy.preload()
 
         self.clock = clock
+        self.start_time = pygame.time.get_ticks()
+
         self.bg = Background()
         self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
         self.enemy = Enemy()
         self.platforms = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
-        self.start_time = pygame.time.get_ticks()
-        self.is_shooting = False
-        font = pygame.font.Font(f"{ASSETS_FONT_FOLDER}FuturaHandwritten.ttf", 32)
-        self.restart_text = font.render("You died. Press space to restart.", True, WHITE)
-        self.restart_bubble = pygame.Rect(SCREEN_WIDTH // 2 - 245, SCREEN_HEIGHT // 2 - 30, 520, 55)
-        self.warned = False
+
+        self.restart_bubble = Bubble(["You died. Press space to restart."], BLACK, WHITE, offsety=-30, size=(520, 60))
 
         Game.bg_music_game.play()
 
@@ -64,38 +62,36 @@ class Game:
             self.walls.add(wall)
 
     def generate_projectiles(self):
-        if self.get_elapsed_time() > 0 and (self.get_elapsed_time() + 1) % 3 == 0 and not self.is_shooting:
-            if not self.warned:
+        if self.get_elapsed_time() > 0 and (self.get_elapsed_time() + 1) % 3 == 0 and not self.enemy.is_shooting:
+            if not self.enemy.is_warned:
                 Game.sound_warning.play()
                 self.enemy.warning()
-                self.warned = True
 
-        if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 3 == 0 and not self.is_shooting:
-            self.warned = False
+        if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 3 == 0 and not self.enemy.is_shooting:
             Game.sound_shoot.play()
             self.enemy.shoot()
-            self.is_shooting = True
             angle = math.atan2(self.player.rect.y - self.enemy.rect.y, self.player.rect.x - self.enemy.rect.x)
             new_projectile = Projectile(self.enemy.rect.x + self.enemy.width, self.enemy.rect.y + 80, math.degrees(angle))
             self.projectiles.add(new_projectile)
 
         if len(self.projectiles) == 0:
-            self.is_shooting = False
+            self.enemy.is_shooting = False
 
     def process_player_input(self, _):
         key = pygame.key.get_pressed()
         if key[pygame.K_SPACE]:
             if self.player.is_dead:
-                self.bg = Background()
-                self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
-                self.enemy = Enemy()
-                self.platforms = pygame.sprite.Group()
-                self.walls = pygame.sprite.Group()
-                self.projectiles = pygame.sprite.Group()
-                self.start_time = pygame.time.get_ticks()
-                self.is_shooting = False
+                self.restart()
             else:
                 self.player.jump()
+
+    def restart(self):
+        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+        self.enemy = Enemy()
+        self.platforms.empty()
+        self.walls.empty()
+        self.projectiles.empty()
+        self.start_time = pygame.time.get_ticks()
 
     def update(self):
         if self.player.is_dead:
@@ -117,12 +113,11 @@ class Game:
             w.draw(screen)
         self.player.draw(screen)
         self.enemy.draw(screen)
-        self.projectiles.draw(screen)
+        # self.projectiles.draw(screen)
         for p in self.projectiles.sprites():
             p.draw(screen)
         if self.player.is_dead:
-            pygame.draw.rect(screen, BLACK, self.restart_bubble, border_radius=30)
-            screen.blit(self.restart_text, (SCREEN_WIDTH // 2 - 225, SCREEN_HEIGHT // 2 - 25))
+            self.restart_bubble.draw(screen)
 
     # return the time passed from the start of the game (in seconds)
     def get_elapsed_time(self):

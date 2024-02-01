@@ -13,6 +13,7 @@ class Platform(pygame.sprite.Sprite):
 
     wall_messages = [
         ["Hit space", "to jump"],
+        ["You can", "double jump"],
         ["Avoid walls"],
         ["Walls will", "kill you"],
         ["Einstein WILL", "kill you"],
