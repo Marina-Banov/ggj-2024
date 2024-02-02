@@ -10,9 +10,11 @@ class SoundManager:
     MUSIC_GAME = "MUSIC_GAME"
     PLAYER_JUMP = "PLAYER_JUMP"
     PLAYER_DEATH = "PLAYER_DEATH"
+    sounds = {}
 
-    def __init__(self):
-        self.sounds = {
+    @staticmethod
+    def preload():
+        SoundManager.sounds = {
             SoundManager.ENEMY_WARNING: pygame.mixer.Sound(f"{ASSETS_SOUNDS}gasp.mp3"),
             SoundManager.ENEMY_SHOOT: pygame.mixer.Sound(f"{ASSETS_SOUNDS}scream.mp3"),
             SoundManager.MUSIC_INTRO: pygame.mixer.Sound(f"{ASSETS_SOUNDS}intro_music.mp3"),
@@ -20,6 +22,9 @@ class SoundManager:
             SoundManager.PLAYER_JUMP: pygame.mixer.Sound(f"{ASSETS_SOUNDS}jump.mp3"),
             SoundManager.PLAYER_DEATH: pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3"),
         }
+
+    def __init__(self):
+        self.sounds = SoundManager.sounds
 
     def play(self, sound):
         self.sounds[sound].play()

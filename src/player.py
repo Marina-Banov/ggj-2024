@@ -6,7 +6,7 @@ from .constants import *
 
 
 class Player:
-    def __init__(self, sound_manager, rect_x, rect_y, image_width, image_height):
+    def __init__(self, rect_x, rect_y, image_width, image_height):
         self.is_jumping = False
         self.is_standing = True
         self.is_dead = False
@@ -24,7 +24,7 @@ class Player:
         self.wobble_phase = 0
         self.wobble_offset = 0
 
-        self.sound_manager = sound_manager
+        self.sound_manager = SoundManager()
 
     def jump(self):
         if self.is_standing:

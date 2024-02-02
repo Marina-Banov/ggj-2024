@@ -11,7 +11,7 @@ class Intro:
     COLOR_BURST = 1
     END = 2
 
-    def __init__(self, _, sound_manager):
+    def __init__(self, _):
         self.scene = 0
         self.is_finished = False
         self.counter = 0
@@ -20,7 +20,7 @@ class Intro:
         self.laboratory_image = pygame.image.load(f"{ASSETS_BG_FOLDER}laboratory.png").convert_alpha()
         self.laboratory_image = pygame.transform.scale(self.laboratory_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-        self.player = Player(sound_manager, 220, 410, 220, 300)
+        self.player = Player(220, 410, 220, 300)
 
         Bubble.preload()
         self.text = [
@@ -38,7 +38,7 @@ class Intro:
 
         self.color_burst = []
 
-        self.sound_manager = sound_manager
+        self.sound_manager = SoundManager()
         if not self.is_finished:
             self.sound_manager.play(SoundManager.MUSIC_INTRO)
 

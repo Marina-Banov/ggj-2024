@@ -12,13 +12,13 @@ class RonTontoTon:
         pygame.display.set_caption("RonTontoTon")
         self.clock = pygame.time.Clock()
         pygame.mixer.init()
-        self.sound_manager = SoundManager()
-        self.current_scene = Intro(self.clock, self.sound_manager)
+        SoundManager.preload()
+        self.current_scene = Intro(self.clock)
 
     def game_loop(self):
         while True:
             if isinstance(self.current_scene, Intro) and self.current_scene.is_finished:
-                self.current_scene = Game(self.clock, self.sound_manager)
+                self.current_scene = Game(self.clock)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     return

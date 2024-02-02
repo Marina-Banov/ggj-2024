@@ -18,7 +18,7 @@ class Enemy:
             img = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}enemy/{i}.png").convert_alpha()
             Enemy.images.append(img)
 
-    def __init__(self, sound_manager):
+    def __init__(self):
         self.is_shooting = False
         self.is_warned = False
 
@@ -45,7 +45,7 @@ class Enemy:
         self.last_update = pygame.time.get_ticks()
         self.last_shot = 0
 
-        self.sound_manager = sound_manager
+        self.sound_manager = SoundManager()
 
     def warning(self):
         self.is_warned = True

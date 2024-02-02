@@ -13,7 +13,7 @@ from .constants import *
 
 
 class Game:
-    def __init__(self, clock, sound_manager):
+    def __init__(self, clock):
         Platform.preload()
         Projectile.preload()
         Enemy.preload()
@@ -22,15 +22,15 @@ class Game:
         self.start_time = pygame.time.get_ticks()
 
         self.bg = Background()
-        self.player = Player(sound_manager, SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
-        self.enemy = Enemy(sound_manager)
+        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+        self.enemy = Enemy()
         self.platforms = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
 
         self.restart_bubble = Bubble(["You died. Press space to restart."], BLACK, WHITE, offsety=-30, size=(520, 60))
 
-        self.sound_manager = sound_manager
+        self.sound_manager = SoundManager()
         self.sound_manager.play(SoundManager.MUSIC_GAME)
 
     def generate_platforms(self):
@@ -79,8 +79,8 @@ class Game:
                 self.player.jump()
 
     def restart(self):
-        self.player = Player(self.sound_manager, SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
-        self.enemy = Enemy(self.sound_manager)
+        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+        self.enemy = Enemy()
         self.platforms.empty()
         self.walls.empty()
         self.projectiles.empty()
