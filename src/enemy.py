@@ -1,6 +1,7 @@
 import math
 import pygame
 
+from .sound_manager import SoundManager
 from .constants import *
 
 
@@ -17,7 +18,7 @@ class Enemy:
             img = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}enemy/{i}.png").convert_alpha()
             Enemy.images.append(img)
 
-    def __init__(self):
+    def __init__(self, sound_manager):
         self.is_shooting = False
         self.is_warned = False
 
@@ -44,14 +45,18 @@ class Enemy:
         self.last_update = pygame.time.get_ticks()
         self.last_shot = 0
 
+        self.sound_manager = sound_manager
+
     def warning(self):
         self.is_warned = True
+        self.sound_manager.play(SoundManager.ENEMY_WARNING)
         self.image = Enemy.images[1]
         self.last_shot = pygame.time.get_ticks()
 
     def shoot(self):
         self.is_warned = False
         self.is_shooting = True
+        self.sound_manager.play(SoundManager.ENEMY_SHOOT)
         self.image = Enemy.images[2]
         self.last_shot = pygame.time.get_ticks()
 

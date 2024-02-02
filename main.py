@@ -5,19 +5,20 @@ import pygame
 from src import *
 
 
-class GGJ_2024:
+class RonTontoTon:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-        pygame.display.set_caption("GGJ 2024")
+        pygame.display.set_caption("RonTontoTon")
         self.clock = pygame.time.Clock()
         pygame.mixer.init()
-        self.current_scene = Intro()
+        self.sound_manager = SoundManager()
+        self.current_scene = Intro(self.clock, self.sound_manager)
 
     def game_loop(self):
         while True:
             if isinstance(self.current_scene, Intro) and self.current_scene.is_finished:
-                self.current_scene = Game(self.clock)
+                self.current_scene = Game(self.clock, self.sound_manager)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     return
@@ -32,7 +33,7 @@ class GGJ_2024:
  
 
 def main():
-    ggj_2024 = GGJ_2024()
+    ggj_2024 = RonTontoTon()
     ggj_2024.game_loop()
     pygame.quit()
     sys.exit()

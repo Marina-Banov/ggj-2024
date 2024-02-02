@@ -1,16 +1,12 @@
 import math
 import pygame
 
+from .sound_manager import SoundManager
 from .constants import *
 
 
 class Player:
-    pygame.mixer.init()
-
-    sound_death = pygame.mixer.Sound(f"{ASSETS_SOUNDS}shout.mp3")
-    sound_jump = pygame.mixer.Sound(f"{ASSETS_SOUNDS}jump.mp3")
-
-    def __init__(self, rect_x, rect_y, image_width, image_height):
+    def __init__(self, sound_manager, rect_x, rect_y, image_width, image_height):
         self.is_jumping = False
         self.is_standing = True
         self.is_dead = False
@@ -28,9 +24,11 @@ class Player:
         self.wobble_phase = 0
         self.wobble_offset = 0
 
+        self.sound_manager = sound_manager
+
     def jump(self):
         if self.is_standing:
-            Player.sound_jump.play()
+            self.sound_manager.play(SoundManager.PLAYER_JUMP)
         self.is_jumping = True
 
     def update(self, platforms, walls, projectiles):
@@ -64,14 +62,14 @@ class Player:
         # Check the list of colliding platforms
         for w in walls:
             if w.rect.colliderect(self.rect.x, self.rect.y + dy, self.rect.width, self.rect.height):
-                Player.sound_death.play()
                 self.is_dead = True
-        
+                self.sound_manager.play(SoundManager.PLAYER_DEATH)
+
         # Check the list of colliding projectiles
         for projectile in projectiles:
             if projectile.rect.colliderect(self.rect.x, self.rect.y + dy, self.rect.width, self.rect.height):
-                Player.sound_death.play()
                 self.is_dead = True
+                self.sound_manager.play(SoundManager.PLAYER_DEATH)
 
         self.rect.y += dy
 

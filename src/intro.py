@@ -2,6 +2,7 @@ import random
 import pygame
 
 from .player import Player
+from .sound_manager import SoundManager
 from .constants import *
 
 
@@ -10,10 +11,7 @@ class Intro:
     COLOR_BURST = 1
     END = 2
 
-    pygame.mixer.init()
-    bg_music_intro = pygame.mixer.Sound(f"{ASSETS_SOUNDS}intro_music.mp3")
-
-    def __init__(self):
+    def __init__(self, _, sound_manager):
         self.scene = 0
         self.is_finished = False
         self.counter = 0
@@ -21,9 +19,8 @@ class Intro:
 
         self.laboratory_image = pygame.image.load(f"{ASSETS_BG_FOLDER}laboratory.png").convert_alpha()
         self.laboratory_image = pygame.transform.scale(self.laboratory_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        #
 
-        self.player = Player(220, 410, 220, 300)
+        self.player = Player(sound_manager, 220, 410, 220, 300)
 
         Bubble.preload()
         self.text = [
@@ -41,7 +38,9 @@ class Intro:
 
         self.color_burst = []
 
-        Intro.bg_music_intro.play()
+        self.sound_manager = sound_manager
+        if not self.is_finished:
+            self.sound_manager.play(SoundManager.MUSIC_INTRO)
 
     def process_player_input(self, event):
         if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
@@ -50,7 +49,7 @@ class Intro:
                 self.scene += 1
             if self.scene == Intro.END:
                 self.is_finished = True
-                Intro.bg_music_intro.stop()
+                self.sound_manager.stop(SoundManager.MUSIC_INTRO)
 
     def burst(self):
         if self.counter % 10 == 0:

@@ -8,18 +8,12 @@ from .intro import Bubble
 from .platform import Platform
 from .player import Player
 from .projectile import Projectile
+from .sound_manager import SoundManager
 from .constants import *
 
 
 class Game:
-    # Initialize the mixer module
-    # pygame.mixer.init()
-    # Load a sound effect
-    sound_warning = pygame.mixer.Sound(f"{ASSETS_SOUNDS}gasp.mp3")
-    sound_shoot = pygame.mixer.Sound(f"{ASSETS_SOUNDS}scream.mp3")
-    bg_music_game = pygame.mixer.Sound(f"{ASSETS_SOUNDS}game_music.wav")
-
-    def __init__(self, clock):
+    def __init__(self, clock, sound_manager):
         Platform.preload()
         Projectile.preload()
         Enemy.preload()
@@ -28,15 +22,16 @@ class Game:
         self.start_time = pygame.time.get_ticks()
 
         self.bg = Background()
-        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
-        self.enemy = Enemy()
+        self.player = Player(sound_manager, SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+        self.enemy = Enemy(sound_manager)
         self.platforms = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
 
         self.restart_bubble = Bubble(["You died. Press space to restart."], BLACK, WHITE, offsety=-30, size=(520, 60))
 
-        Game.bg_music_game.play()
+        self.sound_manager = sound_manager
+        self.sound_manager.play(SoundManager.MUSIC_GAME)
 
     def generate_platforms(self):
         while len(self.platforms) < 8:
@@ -64,11 +59,9 @@ class Game:
     def generate_projectiles(self):
         if self.get_elapsed_time() > 0 and (self.get_elapsed_time() + 1) % 3 == 0 and not self.enemy.is_shooting:
             if not self.enemy.is_warned:
-                Game.sound_warning.play()
                 self.enemy.warning()
 
         if self.get_elapsed_time() > 0 and self.get_elapsed_time() % 3 == 0 and not self.enemy.is_shooting:
-            Game.sound_shoot.play()
             self.enemy.shoot()
             angle = math.atan2(self.player.rect.y - self.enemy.rect.y, self.player.rect.x - self.enemy.rect.x)
             new_projectile = Projectile(self.enemy.rect.x + self.enemy.width, self.enemy.rect.y + 80, math.degrees(angle))
@@ -86,8 +79,8 @@ class Game:
                 self.player.jump()
 
     def restart(self):
-        self.player = Player(SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
-        self.enemy = Enemy()
+        self.player = Player(self.sound_manager, SCREEN_WIDTH * 0.44, GROUND - 150, 110, 150)
+        self.enemy = Enemy(self.sound_manager)
         self.platforms.empty()
         self.walls.empty()
         self.projectiles.empty()
