@@ -12,7 +12,7 @@ class Player:
         self.is_dead = False
 
         self.image = pygame.image.load(f"{ASSETS_CHARACTERS}serena.png")
-        self.image = pygame.transform.scale(self.image, (image_width, image_height))
+        self.image = pygame.transform.smoothscale(self.image, (image_width, image_height))
         self.image_width = image_width
         self.image_height = image_height
 

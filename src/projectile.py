@@ -12,7 +12,7 @@ class Projectile(pygame.sprite.Sprite):
         # Add your animation frames to the list (assuming you have fireball_1.png, fireball_2.png, etc.)
         for i in range(6):
             image = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}projectile/{i+1}.png").convert_alpha()
-            Projectile.images.append(pygame.transform.scale(image, (160, 80)))
+            Projectile.images.append(pygame.transform.smoothscale(image, (160, 80)))
         
     def __init__(self, x, y, angle):
         super().__init__()

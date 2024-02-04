@@ -30,11 +30,11 @@ class Platform(pygame.sprite.Sprite):
         if _type == Platform.PLATFORM:
             self.width = size
             self.height = 30
-            self.image = pygame.transform.scale(Platform.platform_image, (self.width, self.height))
+            self.image = pygame.transform.smoothscale(Platform.platform_image, (self.width, self.height))
         else:
             self.width = 180
             self.height = size
-            self.image = pygame.transform.scale(Platform.wall_image, (self.width, self.height))
+            self.image = pygame.transform.smoothscale(Platform.wall_image, (self.width, self.height))
         self._type = _type
         self.rect = pygame.Rect(x, y, self.width, self.height)
         self.labels = [Platform.font.render(mess, True, WHITE) for mess in Platform.wall_messages[m]]

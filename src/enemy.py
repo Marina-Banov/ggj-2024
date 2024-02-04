@@ -11,9 +11,9 @@ class Enemy:
 
     @staticmethod
     def preload():
-        for i in range(16):
+        for i in range(19):
             c = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}cloud/{i}.png").convert_alpha()
-            Enemy.cloud.append(pygame.transform.scale(c, (160, 90)))
+            Enemy.cloud.append(pygame.transform.smoothscale(c, (160, 120)))
         for i in range(3):
             img = pygame.image.load(f"{ASSETS_IMAGES_FOLDER}enemy/{i}.png").convert_alpha()
             Enemy.images.append(img)
@@ -80,5 +80,5 @@ class Enemy:
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x - 32, self.rect.y - self.wobble_offset))
-        screen.blit(self.image_cloud, (self.rect.x - 70, self.rect.y + 80))
+        screen.blit(self.image_cloud, (self.rect.x - 70, self.rect.y + 60))
         # pygame.draw.rect(screen, WHITE, self.rect, 2)
